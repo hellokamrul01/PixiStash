@@ -1,0 +1,49 @@
+﻿@model List<PixiStash.Application.DTO.CustomerDTO>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Customer Information</h5>
+
+        <!-- Table with customer information -->
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">City</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Zip Code</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contact Person</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    for (int i = 0; i < Model.Count; i++)
+                    {
+                        var customer = Model[i];
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@customer.CustomerName</td>
+                            <td>@customer.Address</td>
+                            <td>@customer.City</td>
+                            <td>@customer.State</td>
+                            <td>@customer.ZipCode</td>
+                            <td>@customer.Phone</td>
+                            <td>@customer.Email</td>
+                            <td>@customer.ContactPerson</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <!-- End Table with customer information -->
+
+    </div>
+</div>

@@ -1,0 +1,66 @@
+﻿@model List<PixiStash.Application.DTO.CompanyDTO>
+
+@{
+    ViewData["Title"] = "Company List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+          @*   <th>Company ID</th> *@
+            <th>Company Name</th>
+            @* <th>Legal Name</th>
+            <th>Registration Number</th>
+            <th>Industry</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Website</th> *@
+            <th>Email</th>
+            <th>Phone</th>
+            @* <th>Fax</th> *@
+            @* <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+            <th>Country</th>
+            <th>Founded Date</th> *@
+            @* <th>Is Active</th> *@
+            <th></th> <!-- Edit Button Column -->
+            <th></th> <!-- Details Button Column -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var company in Model)
+        {
+            <tr>
+                @* <td style="display: none;">@company.Id</td> *@
+                <td>@company.Name</td>
+               @*  <td style="display: none;">@company.LegalName</td>
+                <td style="display: none;">@company.RegistrationNumber</td>
+                <td style="display: none;">@company.Industry</td>
+                <td style="display: none;">@company.Type</td>
+                <td style="display: none;">@company.Description</td>
+                <td style="display: none;">@company.Website</td> *@
+                <td>@company.Email</td>
+                <td>@company.Phone</td>
+              @*   <td style="display: none;">@company.Fax</td>
+                <td style="display: none;">@company.Address</td> *@
+               @*  <td>@company.City</td>
+                <td>@company.State</td>
+                <td>@company.ZipCode</td>
+                <td>@company.Country</td>
+                <td>@company.FoundedDate</td> *@
+                 @* <td>@company.</td>  *@
+                <td>
+                    <a asp-controller="Company" asp-action="Edit" asp-route-id="@company.Id" class="btn btn-primary">Edit</a>
+                </td>
+                <td>
+                    <a asp-controller="Company" asp-action="Details" asp-route-id="@company.Id" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

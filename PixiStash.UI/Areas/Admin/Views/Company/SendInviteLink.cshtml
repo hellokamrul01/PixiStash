@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "SendInviteLink";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Invite Link</h2>
+
+<div>
+    <p>Copy the invite link below:</p>
+    <input type="text" id="inviteLink" value="@ViewBag.InviteLink" readonly />
+    <button onclick="copyToClipboard()">Copy to Clipboard</button>
+</div>
+
+<script>
+    function copyToClipboard() {
+        var inviteLink = document.getElementById("inviteLink");
+        inviteLink.select();
+        document.execCommand("copy");
+        alert("Invite link copied to clipboard!");
+    }
+</script>
+

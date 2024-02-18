@@ -1,0 +1,29 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PixiStash.Core.Models
+{
+    public class Customer
+    {
+        public Guid CustomerId { get; set; }
+        [Required]
+        public string CustomerName { get; set; }
+       // [Display(Name = "Customer Type")]
+        //public int CustomerTypeId { get; set; }
+        [Display(Name = "Street Address")]
+        public string? Address { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        [Display(Name = "Zip Code")]
+        public string? ZipCode { get; set; }
+        public string? Phone { get; set; }
+        public string? Email { get; set; }
+        [Display(Name = "Contact Person")]
+        public string? ContactPerson { get; set; }
+
+        public Guid CompanyId { get; set; }
+        public Company Company { get; set; }
+        public Guid? BranchId { get; set; }
+        public Branch Branch { get; set; }  
+        
+    }
+}

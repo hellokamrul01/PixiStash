@@ -1,0 +1,49 @@
+﻿@model List<PixiStash.Application.DTO.ProductDto>
+
+@{
+    ViewData["Title"] = "Product List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Product List</h2>
+
+<div id="example-table"></div>
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.0/js/tabulator.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.0/css/tabulator.min.css" rel="stylesheet">
+
+    <script>
+        var tableData = @Html.Raw(Json.Serialize(Model));
+
+        console.log('tableData:', tableData);
+
+        var table = new Tabulator("#example-table", {
+            height: "311px",
+            movableRows: true,
+            columns: [
+                { title: "Product Name", field: "productName", width: 150 },
+                { title: "Description", field: "description" },
+                {
+                    title: "Product Image", field: "productImageUrl", formatter: function (cell, formatterParams, onRendered) {
+                        var imageUrl = cell.getValue();
+                        if (imageUrl) {
+                            return '<img src="' + imageUrl + '" alt="Product Image" style="max-width: 100px; max-height: 100px;" />';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                { title: "Default Buying Price", field: "defaultBuyingPrice" },
+                { title: "Default Selling Price", field: "defaultSellingPrice" },
+                { title: "Branch Id", field: "branchId", visible: false },
+                { title: "Quantity", field: "quantity" },
+                { title: "Company Id", field: "companyId", visible: false }
+            ],
+            data: tableData
+        });
+
+
+
+    </script>
+}

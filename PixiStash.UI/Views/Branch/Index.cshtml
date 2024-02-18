@@ -1,0 +1,65 @@
+﻿@model List<PixiStash.Application.DTO.BranchDTO.BranchDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+    <h5 class="card-header">Branch Details</h5>
+  @*   <div class="table-responsive text-nowrap"> *@
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Branch Name</th>
+                    <th>Description</th>
+                    <th>Address</th>
+                    @* <th>City</th>
+                    <th>State</th>
+                    <th>Zip Code</th>
+                    <th>Phone</th> *@
+                    <th>Email</th>
+                    <th>Contact Person</th>
+                    @* <th>Company ID</th> *@
+                    @* <th>Status</th> *@
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var branch in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(model => branch.BranchName)</td>
+                        <td>@Html.DisplayFor(model => branch.Description)</td>
+                        <td>@Html.DisplayFor(model => branch.Address)</td>
+                       @*  <td>@Html.DisplayFor(model => branch.City)</td>
+                        <td>@Html.DisplayFor(model => branch.State)</td>
+                        <td>@Html.DisplayFor(model => branch.ZipCode)</td>
+                        <td>@Html.DisplayFor(model => branch.Phone)</td> *@
+                        <td>@Html.DisplayFor(model => branch.Email)</td>
+                        <td>@Html.DisplayFor(model => branch.ContactPerson)</td>
+                        @* <td>@Html.DisplayFor(model => branch.CompanyId)</td> *@
+                        @* <td><span class="badge bg-label-info me-1">@Html.DisplayFor(model => branch.Status)</span></td> *@
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                            <a class="dropdown-item" href="@Url.Action("Edit", new { id = branch.BranchId, companyId = branch.CompanyId })">
+                                <i class="bx bx-edit-alt me-2"></i> Edit
+                            </a>
+
+                            <a class="dropdown-item" href="@Url.Action("Delete", new { id = branch.BranchId })">
+                                        <i class="bx bx-trash me-2"></i> Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    @* </div> *@
+

@@ -1,0 +1,49 @@
+﻿ @model PixiStash.UI.Areas.Admin.Controllers.SalesController.InvoiceReportViewModel
+
+@{
+    ViewData["Title"] = "ShowInvoiceReport";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Add any necessary styles and scripts here -->
+    <h2>Invoice Report</h2>
+
+    <div>
+        <p><strong>Company Name:</strong> @Model.CompanyName</p>
+        <p><strong>Sales Number:</strong> @Model.SalesNumber</p>
+        <p><strong>Customer Name:</strong> @Model.CustomerName</p>
+        <p><strong>Address:</strong> @Model.Address</p>
+        <p><strong>City:</strong> @Model.City</p>
+        <p><strong>Phone:</strong> @Model.Phone</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Sales Date:</strong> @Model.SalesDate.ToShortDateString()</p>
+    </div>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Service Date</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Rate</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <!-- Add more columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.ServiceDate.ToShortDateString()</td>
+                    <td>@product.Products.Name</td>
+                    <td>@product.Products.Desc</td>
+                    <td>@product.Products.Rate</td>
+                    <td>@product.Quantity</td>
+                    <td>@product.Amount</td>
+                    <!-- Add more cells as needed -->
+                </tr>
+            }
+        </tbody>
+    </table>

@@ -1,0 +1,385 @@
+﻿@* @model PixiStash.UI.Models.SalesWithProductsViewModel *@
+ @model PixiStash.UI.Areas.Admin.Controllers.SalesController.SalesRequestModel
+ @using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Create Invoice";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<form id="salesForm" asp-controller="Sales" asp-action="SaveSales" method="post">
+   @*  <div class="col-md-2">
+        <label asp-for="SalesNumber"></label>
+        <input asp-for="SalesNumber" class="form-control small-input" />
+        <span asp-validation-for="SalesNumber"></span>
+    </div> *@
+
+    <div class="row">
+        <div class="col-md-3">
+            <label asp-for="CustomerId">Customer</label>
+            <select id="customerSelect" class="form-control small-input" onchange="fillCustomerDetails()">
+                <option value="">Select Customer</option>
+                @foreach (var customer in ViewBag.customerList)
+                {
+                    <option value="@customer.CustomerId">@customer.CustomerName</option>
+                }
+            </select>
+            <span asp-validation-for="CustomerId"></span>
+        </div>
+
+        <div class="col-md-2">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control small-input" />
+        </div>
+         <div class="col-md-2">
+            <label asp-for="CustomerName">Names</label>
+            <input asp-for="CustomerName" class="form-control small-input" />
+        </div>
+
+        <div class="col-md-2">
+            <label asp-for="Phone">Phone</label>
+            <input asp-for="Phone" class="form-control small-input" />
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Address">Address</label>
+            <input asp-for="Address" class="form-control small-input" />
+        </div>
+       @*  <div class="col-md-1">
+            <label asp-for="City">City</label>
+            <input asp-for="City" class="form-control small-input" />
+        </div> *@
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="SalesDate"></label>
+        <input asp-for="SalesDate" class="form-control small-input" />
+        <span asp-validation-for="SalesDate"></span>
+    </div>
+
+
+    <div>
+        <div class="col-md-2">
+            <label>Tax Type</label>
+            <select id="taxType" class="form-control">
+                <option value="inclusive">Inclusive of Tax</option>
+                <option value="exclusive">Exclusive of Tax</option>
+            </select>
+        </div>
+
+        <div id="example-table"></div>
+    </div>
+    <div>
+        <button id="reactivity-add" type="button">Add New Row</button>
+        <button id="reactivity-reset" type="button">Reset Row</button>
+        @* <button id="reactivity-update" type="button">Update First Row Name</button> *@
+    </div>
+
+    <div></div>
+    <div>
+        <label>Total Amount:</label>
+        <span id="totalAmount">0.00</span>
+    </div>
+    <div>
+        <label>Tax Amount:</label>
+        <input type="number" id="taxAmount" step="0.01" value="0.00" />
+    </div>
+    <div>
+        <label>Total Amount with Tax:</label>
+        <span id="totalAmountWithTax">0.00</span>
+    </div>
+    <div></div>
+
+    <div>
+        <button type="submit">Save</button>
+    </div>
+</form>
+
+
+
+@section scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-eAqs3nrBDZTRbxQSTn7lKuX6F7OEL3E9dyi66uq92/Ci/04/Oefm3xQ6qHDtL2C2N" crossorigin="anonymous">
+
+    <!-- Add jQuery reference -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.0/js/tabulator.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.1.0/css/tabulator.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
+    <script>
+        var table;
+        $(document).ready(function () {
+            
+            function deleteIconFormatter(cell, formatterParams, onRendered) {
+                return '<i class="fas fa-trash-alt delete-icon" data-row-id="' + cell.getRow().getIndex() + '"></i>';
+            }
+
+            var dateEditor = function (cell, onRendered, success, cancel) {
+                var input = document.createElement("input");
+                input.type = "date";
+                input.style.padding = "4px";
+                input.style.width = "100%";
+                input.style.boxSizing = "border-box";
+                input.value = cell.getValue();
+
+                onRendered(function () {
+                    input.focus();
+                    input.style.height = "100%";
+                });
+
+                function onChange() {
+                    success(input.value);
+                }
+
+                input.addEventListener("blur", onChange);
+                input.addEventListener("keydown", function (e) {
+                    if (e.keyCode == 13) {
+                        onChange();
+                    }
+
+                    if (e.keyCode == 27) {
+                        cancel();
+                    }
+                });
+
+                return input;
+            };
+
+            var productEditor = function (cell, onRendered, success, cancel) {
+                var input = document.createElement("select");
+                input.style.padding = "4px";
+                input.style.width = "100%";
+                input.style.boxSizing = "border-box";
+
+                var productOptions = JSON.parse('@Html.Raw(ViewBag.ProductList)');
+
+                productOptions.forEach(function (product) {
+                    var option = document.createElement("option");
+                    option.value = product.ProductId;
+                    option.text = product.ProductName;
+                    input.appendChild(option);
+                });
+
+                onRendered(function () {
+                    input.focus();
+                    input.style.height = "100%";
+                });
+
+                function onChange() {
+                    var selectedProductId = input.value;
+                    var selectedProduct = productOptions.find(p => p.ProductId == selectedProductId);
+                    success({
+                        id: selectedProductId,
+                        name: selectedProduct.ProductName,
+                        desc: selectedProduct.Description,
+                        rate: selectedProduct.DefaultSellingPrice
+                    });
+                    cell.getRow().getCell("Products.desc").setValue(selectedProduct.Description);
+                    cell.getRow().getCell("Products.rate").setValue(selectedProduct.DefaultSellingPrice);
+                    cell.getRow().getCell("Products.name").setValue(selectedProduct.ProductName);
+                    cell.getRow().getCell("Products.amount").setValue(selectedProduct.DefaultSellingPrice * cell.getRow().getCell("Quantity").getValue());
+                }
+
+                input.addEventListener("blur", onChange);
+                input.addEventListener("change", onChange);
+                input.addEventListener("keydown", function (e) {
+                    if (e.keyCode == 13) {
+                        onChange();
+                    }
+
+                    if (e.keyCode == 27) {
+                        cancel();
+                    }
+                });
+
+                return input;
+            };
+
+            table = new Tabulator("#example-table", {
+                height: "311px",
+                movableRows: true,
+                layout: "fitColumns",
+                reactiveData: true,
+                data: [
+                    { ServiceDate: "", Products: { id: "", name: "", desc: "", rate: 0 }, Quantity: 1, Amount: 0, Tax: 0 },
+                    { ServiceDate: "", Products: { id: "", name: "", desc: "", rate: 0 }, Quantity: 1, Amount: 0, Tax: 0 },
+                ],
+                columns: [
+                    { rowHandle: true, formatter: "handle", headerSort: false, frozen: true, width: 30, minWidth: 30 },
+                    { title: "Service Date", field: "ServiceDate", hozAlign: "center", editor: dateEditor },
+                    {
+                        title: "Products", field: "Products", hozAlign: "center", editor: productEditor, formatter: function (cell, formatterParams, onRendered) {
+                            return cell.getValue().name;
+                        }
+                    },
+                    { title: "Desc", field: "Products.desc", hozAlign: "center", editor: "input" },
+                    { title: "Rate", field: "Products.rate", hozAlign: "center", editor: "input", cellEdited: function (cell) { updateAmount(cell); } },
+                    { title: "Quantity", field: "Quantity", hozAlign: "center", editor: "input", bottomCalc: "sum", cellEdited: function (cell) { updateAmount(cell); } },
+                    { title: "Amount", field: "Amount", hozAlign: "center", formatter: "money", editor: "input", formatterParams: { precision: 2 }, bottomCalc: "sum", bottomCalcFormatter: "money", bottomCalcFormatterParams: { precision: 2 }, cellEdited: function (cell) { updateAmount(cell); } },
+                    { title: "Tax", field: "Tax", hozAlign: "center", editor: "input", bottomCalc: "sum", visible: false },
+                ],
+                cellEdited: function (cell) {
+                    updateAmount(cell);
+                }
+            });
+
+            document.getElementById("reactivity-add").addEventListener("click", function () {
+                table.addRow({ ServiceDate: "", Products: { id: "", name: "", desc: "", rate: 0 }, Quantity: 1, Amount: 0, Tax: 0 });
+            });
+
+            document.getElementById("reactivity-reset").addEventListener("click", function () {
+                table.clearData();
+            });
+
+            function updateAmount(cell) {
+                var rowData = cell.getRow().getData();
+                rowData.Amount = rowData.Quantity * rowData.Products.rate;
+                cell.getRow().update({ Amount: rowData.Amount });
+                updateTotalAmount();
+            }
+
+            function updateTotalAmount() {
+                var data = table.getData();
+                var subtotal = data.reduce(function (acc, row) {
+                    return acc + row.Amount;
+                }, 0);
+
+                var taxType = $("#taxType").val();
+                var totalTaxAmount = 0;
+
+                if (taxType === "exclusive") {
+                    totalTaxAmount = parseFloat($("#taxAmount").val()) || 0;
+                }
+
+                var totalAmount = subtotal + totalTaxAmount;
+
+                // Update the UI with the calculated values
+                $("#totalAmount").text(subtotal.toFixed(2));
+                $("#taxAmount").val(totalTaxAmount.toFixed(2));
+                $("#totalAmountWithTax").text(totalAmount.toFixed(2));
+            }
+
+            // Attach event listener to tax amount input
+            $("#taxAmount").on("input", function () {
+                updateTotalAmount();
+            });
+
+            // Attach event listener to tax type select
+            $("#taxType").change(function () {
+                updateTotalAmount();
+                var taxType = $(this).val();
+
+                if (taxType === "inclusive") {
+                    // Hide the tax column
+                    table.hideColumn("Tax");
+                } else {
+                    // Show the tax column
+                    table.showColumn("Tax");
+                }
+            });
+        });
+
+        function saveSales(event) {
+            event.preventDefault(); // prevent default form submission
+            fillCustomerDetails();
+            // Prepare sales data
+            var salesData = {
+                // SalesNumber: $("#SalesNumber").val(),
+                CustomerId: $("#customerSelect").val(),
+                SalesDate: $("#SalesDate").val(),
+                // ... (other fields) ...
+                CustomerName: $("#CustomerName").val(),
+                Address: $("#Address").val(),
+                // City: $("#City").val(),
+                Phone: $("#Phone").val(),
+                Email: $("#Email").val(),
+                // Add products data
+                Products: table.getData()
+            };
+
+            console.log("Save button clicked!");
+            console.log($("#salesForm").attr("action"));
+           // console.log(salesData);
+            console.log(JSON.stringify(salesData));
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Sales/SaveSales",
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify(salesData),
+                headers: {
+                    RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                    console.log('Request failed:', JSON.stringify(salesData));
+                }
+
+            });
+
+
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/Admin/Sales/SaveSales", // Replace this with the actual URL
+            //     contentType: "application/json",
+            //     data: JSON.stringify(salesData),
+            //     headers: {
+            //         RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+            //     },
+            //     success: function (response) {
+            //         // Handle success response
+            //         console.log(response);
+            //     },
+            //     error: function (error) {
+            //         // Handle error response
+            //         console.error(error);
+            //     }
+            // });
+
+
+        }
+
+
+
+        // Attach saveSales function to form submission
+        $("#salesForm").submit(saveSales);
+
+
+    </script>
+
+    
+    <script>
+        @{
+            // Serialize customerList to JSON within the Razor code block
+            var customerListJson = JsonConvert.SerializeObject(ViewBag.customerList);
+        }
+
+            function fillCustomerDetails() {
+                var selectedCustomerId = $("#customerSelect").val();
+                var customerList = $.parseJSON('@Html.Raw(customerListJson)');
+                var selectedCustomer = customerList.find(c => c.CustomerId === selectedCustomerId);
+
+                if (selectedCustomer) {
+                    $("#CustomerName").val(selectedCustomer.CustomerName);
+                    $("#customerSelect").val(selectedCustomer.CustomerId);
+                    $("#Address").val(selectedCustomer.Address);
+                    // $("#City").val(selectedCustomer.City);
+                    $("#Phone").val(selectedCustomer.Phone);
+                    $("#Email").val(selectedCustomer.Email);
+                } else {
+                    // Clear fields if no customer is selected
+                    $("#CustomerName").val('');
+                    $("#Address").val('');
+                    // $("#City").val('');
+                    $("#Phone").val('');
+                    $("#Email").val('');
+                }
+            }
+    </script>
+
+}

@@ -1,0 +1,113 @@
+﻿ @model PixiStash.Application.DTO.BranchDTO.BranchDto
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Create Branch</h5>
+
+        <form asp-action="Edit" method="post">
+
+            <div class="row mb-3">
+                <label asp-for="BranchName" class="col-sm-2 col-form-label">Branch Name</label>
+                <div class="col-sm-10">
+                    <input asp-for="BranchName" class="form-control">
+                    <span asp-validation-for="BranchName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Description" class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-10">
+                    <input asp-for="Description" class="form-control">
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="CurrencyId" class="col-sm-2 col-form-label">Currency ID</label>
+                <div class="col-sm-10">
+                    <input asp-for="CurrencyId" class="form-control">
+                    <span asp-validation-for="CurrencyId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Address" class="col-sm-2 col-form-label">Street Address</label>
+                <div class="col-sm-10">
+                    <input asp-for="Address" class="form-control">
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="City" class="col-sm-2 col-form-label">City</label>
+                <div class="col-sm-10">
+                    <input asp-for="City" class="form-control">
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="State" class="col-sm-2 col-form-label">State</label>
+                <div class="col-sm-10">
+                    <input asp-for="State" class="form-control">
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="ZipCode" class="col-sm-2 col-form-label">Zip Code</label>
+                <div class="col-sm-10">
+                    <input asp-for="ZipCode" class="form-control">
+                    <span asp-validation-for="ZipCode" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Phone" class="col-sm-2 col-form-label">Phone</label>
+                <div class="col-sm-10">
+                    <input asp-for="Phone" class="form-control">
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input asp-for="Email" class="form-control">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="ContactPerson" class="col-sm-2 col-form-label">Contact Person</label>
+                <div class="col-sm-10">
+                    <input asp-for="ContactPerson" class="form-control">
+                    <span asp-validation-for="ContactPerson" class="text-danger"></span>
+                </div>
+            </div>
+            <input asp-for="CompanyId" type="hidden">
+            <input asp-for="BranchId" type="hidden">
+           @*  <div class="row mb-3">
+                <label asp-for="CompanyId" class="col-sm-2 col-form-label">Company ID</label>
+                <div class="col-sm-10">
+                    
+                    <span asp-validation-for="CompanyId" class="text-danger"></span>
+                </div>
+            </div> *@
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Create Branch</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

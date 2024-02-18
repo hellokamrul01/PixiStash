@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34205.153
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixiStash.Core", "PixiStash.Core\PixiStash.Core.csproj", "{0A10A4A5-A7B0-41F3-9F87-C9C1CBC0A1FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixiStash.DataAccess", "PixiStash.DataAccess\PixiStash.DataAccess.csproj", "{8B3AEBB9-0AB0-453A-A712-A112F4CC5FEA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixiStash.Application", "PixiStash.Application\PixiStash.Application.csproj", "{8F8C6E5F-D1D6-4EB4-9D5E-6DB6DE36B925}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixiStash.UI", "PixiStash.UI\PixiStash.UI.csproj", "{11F7A7EB-65E2-40BB-8466-E44A422A8B4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixiStash.Shared", "PixiStash.Shared\PixiStash.Shared.csproj", "{5D0C94F5-BD46-4744-8776-8FFEFE4792CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A10A4A5-A7B0-41F3-9F87-C9C1CBC0A1FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A10A4A5-A7B0-41F3-9F87-C9C1CBC0A1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A10A4A5-A7B0-41F3-9F87-C9C1CBC0A1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A10A4A5-A7B0-41F3-9F87-C9C1CBC0A1FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B3AEBB9-0AB0-453A-A712-A112F4CC5FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B3AEBB9-0AB0-453A-A712-A112F4CC5FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B3AEBB9-0AB0-453A-A712-A112F4CC5FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B3AEBB9-0AB0-453A-A712-A112F4CC5FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F8C6E5F-D1D6-4EB4-9D5E-6DB6DE36B925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F8C6E5F-D1D6-4EB4-9D5E-6DB6DE36B925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F8C6E5F-D1D6-4EB4-9D5E-6DB6DE36B925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F8C6E5F-D1D6-4EB4-9D5E-6DB6DE36B925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11F7A7EB-65E2-40BB-8466-E44A422A8B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11F7A7EB-65E2-40BB-8466-E44A422A8B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11F7A7EB-65E2-40BB-8466-E44A422A8B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11F7A7EB-65E2-40BB-8466-E44A422A8B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D0C94F5-BD46-4744-8776-8FFEFE4792CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D0C94F5-BD46-4744-8776-8FFEFE4792CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D0C94F5-BD46-4744-8776-8FFEFE4792CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D0C94F5-BD46-4744-8776-8FFEFE4792CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {829DF08D-49AB-4B7F-8C53-00A37D1064CA}
+	EndGlobalSection
+EndGlobal
